@@ -38,7 +38,8 @@ final class HomeViewController: UIViewController {
     @IBOutlet private weak var opRest: UIButton!
     @IBOutlet private weak var opPlus: UIButton!
     @IBOutlet private weak var opResult: UIButton!
-    
+    @IBOutlet private weak var opMulti2: UIButton!
+    @IBOutlet private weak var opDiv2: UIButton!
     
     // MARK: VARIABLES
     
@@ -144,6 +145,8 @@ final class HomeViewController: UIViewController {
         opRest.round()
         opPlus.round()
         opResult.round()
+        opMulti2.round()
+        opDiv2.round()
         
         // adaptar separador decimal segun localizacion
         numberDecimal.setTitle(decimalSeparator, for: .normal)
@@ -226,6 +229,28 @@ final class HomeViewController: UIViewController {
         result()
         sender.shine()
     }
+    
+    
+    @IBAction func opMulti2Action(_ sender: UIButton) {
+        temp = temp * 2
+        total = temp
+        resultLabel.text = printFormatter.string(from: NSNumber(value: temp))
+        operating = false
+        operation = .none
+        selectVisualOperation()
+        sender.shine()
+    }
+    
+    @IBAction func opDiv2Action(_ sender: UIButton) {
+        temp = temp / 2
+        total = temp
+        resultLabel.text = printFormatter.string(from: NSNumber(value: temp))
+        operating = false
+        operation = .none
+        selectVisualOperation()
+        sender.shine()
+    }
+    
     
     
     // Numeros
