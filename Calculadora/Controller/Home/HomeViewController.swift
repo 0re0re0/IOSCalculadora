@@ -166,29 +166,24 @@ final class HomeViewController: UIViewController {
     }
     
     @IBAction func opPlusMenusAction(_ sender: UIButton) {
-        
-        if operating {
-            temp = temp * (-1)
-        } else {
-            total = total * (-1)
-        }
-        
-        resultLabel.text = printFormatter.string(from: NSNumber(value: operating ? temp : total))
-        sender.shine()
-    }
-    
-    @IBAction func opPorcentAction(_ sender: UIButton) {
-        if !operating {
-            temp = total
-        }
-        temp = temp / 100
-        total = temp
+        temp = temp * (-1)
         resultLabel.text = printFormatter.string(from: NSNumber(value: temp))
         sender.shine()
     }
     
+    @IBAction func opPorcentAction(_ sender: UIButton) {
+        if operation == .none {
+            temp = temp / 100
+        } else {
+            temp = (total * temp) / 100
+        }
+        resultLabel.text = printFormatter.string(from: NSNumber(value: temp))
+        sender.shine()
+    }
+    
+
     @IBAction func opDivAction(_ sender: UIButton) {
-        if operation != .por {
+        if operation != .por && !operating {
             result()
         }
         operating = true
@@ -198,7 +193,7 @@ final class HomeViewController: UIViewController {
     }
     
     @IBAction func opMultiAction(_ sender: UIButton) {
-        if operation != .por {
+        if operation != .por && !operating {
             result()
         }
         operating = true
@@ -208,17 +203,17 @@ final class HomeViewController: UIViewController {
     }
     
     @IBAction func opRestAction(_ sender: UIButton) {
-        if operation != .por {
-            result()
-        }
-        operating = true
-        operation = .sub
-        sender.selectOperation(true)
-        sender.shine()
-    }
+         if operation != .por && !operating {
+             result()
+         }
+         operating = true
+         operation = .sub
+         sender.selectOperation(true)
+         sender.shine()
+     }
     
     @IBAction func opPlusAction(_ sender: UIButton) {
-        if operation != .por {
+        if operation != .por && !operating {
             result()
         }
         operating = true
@@ -239,44 +234,45 @@ final class HomeViewController: UIViewController {
         if !operating && currentTemp.count > maxlength {
             return
         }
-        resultLabel.text = resultLabel.text! + decimalSeparator
-        decimal = true
+        
+        if !resultLabel.text!.contains(decimalSeparator) {
+            resultLabel.text = resultLabel.text! + decimalSeparator
+            decimal = true
+        }
+        
         selectVisualOperation()
         sender.shine()
     }
     
     @IBAction func numberAction(_ sender: UIButton) {
-        opAc.setTitle("C", for: .normal )
-        var currentTemp = auxTotalFormatter.string(from: NSNumber(value: temp))!
-        if !operating && currentTemp.count > maxlength {
-            return
-        }
-         currentTemp = auxFormatter.string(from: NSNumber(value: temp))!
-
-            // op seleccionada
-        if operating {
-            total = total == 0 ? temp : total
-            resultLabel.text = ""
-            currentTemp = ""
-            operating = false
-        }
-        
-            // op valores decimales
-        if decimal {
-            currentTemp = "\(currentTemp)\(decimalSeparator)"
-            decimal = false
-        }
-        
-            // asociar numero al temporal
-        let number = sender.tag
-        temp = Double(currentTemp + String(number))!
-        resultLabel.text = printFormatter.string(from: NSNumber(value: temp))
-
-        
-        selectVisualOperation()
-        sender.shine()
-    }
-    
+           opAc.setTitle("C", for: .normal)
+           
+           // Si estamos operando o después de una operación, reiniciar temp
+           if operating {
+               total = temp  // Guardamos el valor anterior
+               temp = 0
+               resultLabel.text = "0"
+               operating = false
+           }
+           
+           let number = Double(sender.tag)
+           
+           // Manejar decimales
+           if decimal {
+               let currentText = resultLabel.text ?? "0"
+               if !currentText.contains(decimalSeparator) {
+                   resultLabel.text = currentText + decimalSeparator
+               }
+               resultLabel.text = resultLabel.text! + String(Int(number))
+               temp = Double(resultLabel.text!.replacingOccurrences(of: decimalSeparator, with: ".")) ?? 0
+           } else {
+               temp = (temp * 10) + number
+               resultLabel.text = printFormatter.string(from: NSNumber(value: temp))
+           }
+           
+           selectVisualOperation()
+           sender.shine()
+       }
     
     // MARK: METODOS
     
@@ -302,45 +298,42 @@ final class HomeViewController: UIViewController {
     }
     
     
-    private func result() { // obtiene el resultado final
-            if temp == 0 {
-                return
-            }
-            
-            switch operation {
-            case .none:
-                total = temp
-            case .add:
-                total = total + temp
-            case .sub:
-                total = total - temp
-            case .mul:
-                total = total * temp
-            case .div:
-                if temp != 0 {
-                    total = total / temp
-                }
-            case .por:
-                temp = temp / 100
-                total = temp
-            }
-            
-            // formateo en pantalla
-            if let currentTotal = auxTotalFormatter.string(from: NSNumber(value: total)), currentTotal.count > maxlength {
-                resultLabel.text = printScientificFormatter.string(from: NSNumber(value: total))
-            } else {
-                resultLabel.text = printFormatter.string(from: NSNumber(value: total))
-            }
-                
-            operation = .none
-            operating = true
-            selectVisualOperation()
-            UserDefaults.standard.set(total, forKey: ktotal)
-            temp = total
-            print("TOTAL: \(total)")
-        }
-    
-    
+  
+    private func result() {
+           if temp == 0 && operation == .div {
+               return
+           }
+           
+           switch operation {
+           case .none:
+               total = temp
+           case .add:
+               total = total + temp
+           case .sub:
+               total = total - temp
+           case .mul:
+               total = total * temp
+           case .div:
+               total = total / temp
+           case .por:
+               return
+           }
+           
+           // formateo en pantalla
+           if let currentTotal = auxTotalFormatter.string(from: NSNumber(value: total)), currentTotal.count > maxlength {
+               resultLabel.text = printScientificFormatter.string(from: NSNumber(value: total))
+           } else {
+               resultLabel.text = printFormatter.string(from: NSNumber(value: total))
+           }
+           
+           temp = total  // Guardamos el total para la siguiente operación
+           operation = .none
+           operating = true
+           decimal = false
+           
+           selectVisualOperation()
+           UserDefaults.standard.set(total, forKey: ktotal)
+       }
     
     
     
