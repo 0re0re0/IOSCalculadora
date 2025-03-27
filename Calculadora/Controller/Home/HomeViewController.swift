@@ -166,15 +166,24 @@ final class HomeViewController: UIViewController {
     }
     
     @IBAction func opPlusMenusAction(_ sender: UIButton) {
-        temp = temp * (-1)
-        resultLabel.text = printFormatter.string(from: NSNumber(value:  temp))
+        
+        if operating {
+            temp = temp * (-1)
+        } else {
+            total = total * (-1)
+        }
+        
+        resultLabel.text = printFormatter.string(from: NSNumber(value: operating ? temp : total))
         sender.shine()
     }
     
     @IBAction func opPorcentAction(_ sender: UIButton) {
-        operating = true
-        operation = .por
-        result()
+        if !operating {
+            temp = total
+        }
+        temp = temp / 100
+        total = temp
+        resultLabel.text = printFormatter.string(from: NSNumber(value: temp))
         sender.shine()
     }
     
@@ -272,50 +281,68 @@ final class HomeViewController: UIViewController {
     // MARK: METODOS
     
     private func clear() { // limpia los valores
-        operation = .none
-        opAc.setTitle("AC", for: .normal)
-        if temp != 0 {
-            temp = 0
-            resultLabel.text = "0"
-        } else {
+        if operation == .none {
             total = 0
+            temp = 0
+        } else {
+            temp = 0
         }
+        operation = .none
+        operating = false
+        decimal = false
+        opAc.setTitle("AC", for: .normal)
+        resultLabel.text = "0"
+        
+        // Resetear la persistencia cuando se limpia todo
+        if total == 0 {
+            UserDefaults.standard.set(0, forKey: ktotal)
+        }
+        
+        selectVisualOperation()
     }
     
     
     private func result() { // obtiene el resultado final
-        switch operation {
-        case .none: // no hacemos nada
-            break
-        case .add:
-            total = total + temp
-            break
-        case .sub:
-            total = total - temp
-            break
-        case .mul:
-            total = total * temp
-            break
-        case .div:
-            total = total / temp
-            break
-        case .por:
-            total = temp / 100
-            total = temp
-            break
-        }
-        // formateo en pantalla
-        if let currentTotal = auxTotalFormatter.string(from: NSNumber(value: total)), currentTotal.count > maxlength {
-                   resultLabel.text = printScientificFormatter.string(from: NSNumber(value: total))
-               } else {
-                   resultLabel.text = printFormatter.string(from: NSNumber(value: total))
-               }
+            if temp == 0 {
+                return
+            }
             
-        operation = .none
-        selectVisualOperation()
-        UserDefaults.standard.set(total, forKey: ktotal)
-        print("TOAL: \(total)")
-    }
+            switch operation {
+            case .none:
+                total = temp
+            case .add:
+                total = total + temp
+            case .sub:
+                total = total - temp
+            case .mul:
+                total = total * temp
+            case .div:
+                if temp != 0 {
+                    total = total / temp
+                }
+            case .por:
+                temp = temp / 100
+                total = temp
+            }
+            
+            // formateo en pantalla
+            if let currentTotal = auxTotalFormatter.string(from: NSNumber(value: total)), currentTotal.count > maxlength {
+                resultLabel.text = printScientificFormatter.string(from: NSNumber(value: total))
+            } else {
+                resultLabel.text = printFormatter.string(from: NSNumber(value: total))
+            }
+                
+            operation = .none
+            operating = true
+            selectVisualOperation()
+            UserDefaults.standard.set(total, forKey: ktotal)
+            temp = total
+            print("TOTAL: \(total)")
+        }
+    
+    
+    
+    
     
         // muestra de forma visual la operacion seleccionada
     private func selectVisualOperation() {
