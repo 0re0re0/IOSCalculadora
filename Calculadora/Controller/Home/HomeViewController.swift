@@ -325,40 +325,52 @@ final class HomeViewController: UIViewController {
     
   
     private func result() {
-           if temp == 0 && operation == .div {
-               return
-           }
-           
-           switch operation {
-           case .none:
-               total = temp
-           case .add:
-               total = total + temp
-           case .sub:
-               total = total - temp
-           case .mul:
-               total = total * temp
-           case .div:
-               total = total / temp
-           case .por:
-               return
-           }
-           
-           // formateo en pantalla
-           if let currentTotal = auxTotalFormatter.string(from: NSNumber(value: total)), currentTotal.count > maxlength {
-               resultLabel.text = printScientificFormatter.string(from: NSNumber(value: total))
-           } else {
-               resultLabel.text = printFormatter.string(from: NSNumber(value: total))
-           }
-           
-           temp = total  // Guardamos el total para la siguiente operación
-           operation = .none
-           operating = true
-           decimal = false
-           
-           selectVisualOperation()
-           UserDefaults.standard.set(total, forKey: ktotal)
-       }
+        if temp == 0 && operation == .div {
+            return
+        }
+        
+        switch operation {
+        case .none:
+            total = temp
+        case .add:
+            total = total + temp
+        case .sub:
+            total = total - temp
+        case .mul:
+            total = total * temp
+        case .div:
+            total = total / temp
+            // Formateo especial para división: redondear a 2 decimales
+            let roundedTotal = round(total * 100) / 100
+            resultLabel.text = printFormatter.string(from: NSNumber(value: roundedTotal))
+            
+            temp = total  // Mantenemos el valor exacto en temp
+            operation = .none
+            operating = true
+            decimal = false
+            
+            selectVisualOperation()
+            UserDefaults.standard.set(total, forKey: ktotal)
+            return // Salimos para evitar el formateo estándar
+        case .por:
+            return
+        }
+        
+        // formateo en pantalla (para todas las operaciones excepto división)
+        if let currentTotal = auxTotalFormatter.string(from: NSNumber(value: total)), currentTotal.count > maxlength {
+            resultLabel.text = printScientificFormatter.string(from: NSNumber(value: total))
+        } else {
+            resultLabel.text = printFormatter.string(from: NSNumber(value: total))
+        }
+        
+        temp = total  // Guardamos el total para la siguiente operación
+        operation = .none
+        operating = true
+        decimal = false
+        
+        selectVisualOperation()
+        UserDefaults.standard.set(total, forKey: ktotal)
+    }
     
     
     
