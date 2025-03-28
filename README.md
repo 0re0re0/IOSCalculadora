@@ -21,7 +21,7 @@ Calculadora iOS es una aplicación que replica la experiencia de una calculadora
 ##  Demo
 
 <p align="center">
-  <img src="Calculadora/Screenshots/demo.gif" width="200" alt="Demo de la calculadora">
+  <img src="Calculadora/Screenshots/demo.gif" width="350" alt="Demo de la calculadora">
 </p>
 
 ##  Tecnologías utilizadas
