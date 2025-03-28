@@ -1,8 +1,8 @@
 # Calculadora iOS
 
 <p align="center">
-  <img src="Screenshots/app_icon.png" width="200" alt="App Icon" style="margin-right: 50px;">
-  <img src="Screenshots/iphone_screenshot.png" width="300" alt="iPhone Screenshot">
+  <img src="Calculadora/Screenshots/icon.png" width="200" alt="Icono de la App" style="margin-right: 50px;">
+  <img src="Calculadora/Screenshots/image.png" width="300" alt="Captura del iPhone">
 </p>
 
 ##  Descripción
@@ -21,7 +21,7 @@ Calculadora iOS es una aplicación que replica la experiencia de una calculadora
 ##  Demo
 
 <p align="center">
-  <video src="/Calculadora/Screenshots/GIF.mov" width="300" autoplay loop muted playsinline></video>
+  <video src="Calculadora/Screenshots/GIF.mov" width="300" autoplay loop muted playsinline></video>
 </p>
 
 ##  Tecnologías utilizadas
@@ -70,5 +70,6 @@ Si tienes alguna pregunta o sugerencia, no dudes en contactarme:
 Este proyecto está bajo la Licencia MIT
 
 
----
 ¡Gracias por visitar mi proyecto!
+
+---
