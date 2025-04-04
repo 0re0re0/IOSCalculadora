@@ -56,6 +56,23 @@ final class HomeViewController: UIViewController {
     private let maxValue: Double = 999999999
     private let minValue: Double = 0.00000001
     private let ktotal = "total"
+  
+    // Purple colors (numbers)
+    private let darkPurple = UIColor(red: 0.8, green: 0.4, blue: 0.7, alpha: 1.0)
+    private let lightPurple = UIColor(red: 0.8, green: 0.4, blue: 0.7, alpha: 1.0)
+    
+    // Blue colors (basic operations)
+    private let darkBlue = UIColor(red: 0.2, green: 0.6, blue: 0.9, alpha: 1.0)
+    private let lightBlue = UIColor(red: 0.2, green: 0.6, blue: 0.9, alpha: 1.0)
+    
+    // Green colors (x2, /2)
+    private let darkGreen = UIColor(red: 0.2, green: 0.8, blue: 0.4, alpha: 1.0)
+    private let lightGreen = UIColor(red: 0.2, green: 0.8, blue: 0.4, alpha: 1.0)
+    
+    // Yellow colors (AC, +/-, %)
+    private let darkYellow = UIColor(red: 0.9, green: 0.8, blue: 0.2, alpha: 1.0)
+    private let lightYellow = UIColor(red: 0.9, green: 0.8, blue: 0.2, alpha: 1.0)
+    
     
     private enum OperationType {
         case none,add,sub,mul,div,por
@@ -124,6 +141,16 @@ final class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Cambios de tema
+                NotificationCenter.default.addObserver(self,
+                                                     selector: #selector(themeChanged),
+                                                     name: UIApplication.didBecomeActiveNotification,
+                                                     object: nil)
+                
+                // Aplicar tema inicial
+                applyTheme()
+        
         
         // Aplicar Redondeo
         number0.round()
@@ -300,6 +327,61 @@ final class HomeViewController: UIViewController {
        }
     
     // MARK: METODOS
+    
+    @objc private func themeChanged() {
+           applyTheme()
+       }
+    
+    
+    private func applyTheme() {
+        let isDarkMode = traitCollection.userInterfaceStyle == .dark
+        
+        // Configurar color de fondo
+        view.backgroundColor = isDarkMode ? .black : .white
+        
+        // Configurar color de texto
+        resultLabel.textColor = isDarkMode ? .white : .black
+        
+        // Configurar colores de botones numéricos
+                let numberColor = isDarkMode ? darkPurple : lightPurple
+                [number0, number1, number2, number3, number4,
+                 number5, number6, number7, number8, number9, numberDecimal].forEach { button in
+                    button?.backgroundColor = numberColor
+                    button?.setTitleColor(.white, for: .normal) // Siempre blanco
+                }
+        
+        // Configurar colores de botones de operación básica
+                let operationColor = isDarkMode ? darkBlue : lightBlue
+                [opDiv, opMulti, opRest, opPlus, opResult].forEach { button in
+                    button?.backgroundColor = operationColor
+                    button?.setTitleColor(.white, for: .normal) // Siempre blanco
+                }
+        
+        // Configurar colores de botones especiales (x2, /2)
+        let specialColor = isDarkMode ? darkGreen : lightGreen
+        [opMulti2, opDiv2].forEach { button in
+            button?.backgroundColor = specialColor
+            button?.setTitleColor(isDarkMode ? .white : .black, for: .normal)
+        }
+        
+        // Configurar colores de botones de función
+        let functionColor = isDarkMode ? darkYellow : lightYellow
+        [opAc, opPlusMenus, opPorcent].forEach { button in
+            button?.backgroundColor = functionColor
+            button?.setTitleColor(isDarkMode ? .white : .black, for: .normal)
+        }
+        
+        // Asegurar que AC y decimal tengan texto blanco
+        opAc.setTitleColor(.white, for: .normal)
+        numberDecimal.setTitleColor(.white, for: .normal)
+    }
+       
+       override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+           super.traitCollectionDidChange(previousTraitCollection)
+           applyTheme()
+       }
+    
+    
     
     private func clear() { // limpia los valores
         if operation == .none {
