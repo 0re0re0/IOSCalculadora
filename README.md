@@ -5,11 +5,19 @@
   <img src="Calculadora/Screenshots/image.png" width="300" alt="Captura del iPhone">
 </p>
 
-##  Descripción
+<br>
+<p align="left">
+  <img src="https://capsule-render.vercel.app/api?type=soft&height=35&text=Descripción&color=007AFF&fontColor=ffffff&fontSize=20&padding=10" />
+</p>
+<br>
 
 Calculadora iOS es una aplicación que replica la experiencia de una calculadora moderna con una interfaz similar a la de IOS pero con mi propio estilo. Diseñada con Swift y UIKit, ofrece todas las operaciones matemáticas básicas con un diseño limpio y atractivo.
 
-##  Características
+<br>
+<p align="left">
+  <img src="https://capsule-render.vercel.app/api?type=soft&height=35&text=Características&color=007AFF&fontColor=ffffff&fontSize=20&padding=10" />
+</p>
+<br>
 
 - **Operaciones básicas**: suma, resta, multiplicación y división
 - **Funciones adicionales**: porcentaje, cambio de signo, multiplicación por 2, división por 2
@@ -18,20 +26,33 @@ Calculadora iOS es una aplicación que replica la experiencia de una calculadora
 - **Memoria persistente**: guarda el último resultado entre sesiones
 - **Notación científica**: para números muy grandes
 
-##  Demo
+<br>
+<p align="left">
+  <img src="https://capsule-render.vercel.app/api?type=soft&height=35&text=Demo&color=007AFF&fontColor=ffffff&fontSize=20&padding=10" />
+</p>
+<br>
 
 <p align="center">
   <img src="Calculadora/Screenshots/demo.gif" width="350" alt="Demo de la calculadora">
 </p>
 
-##  Tecnologías utilizadas
+
+<br>
+<p align="left">
+  <img src="https://capsule-render.vercel.app/api?type=soft&height=35&text=Tecnologías&color=007AFF&fontColor=ffffff&fontSize=20&padding=10" />
+</p>
+<br>
 
 - Swift 5
 - UIKit
 - Xcode 16
 - Interface Builder con XIB
 
-##  Arquitectura
+<br>
+<p align="left">
+  <img src="https://capsule-render.vercel.app/api?type=soft&height=35&text=Arquitectura&color=007AFF&fontColor=ffffff&fontSize=20&padding=10" />
+</p>
+<br>
 
 La aplicación sigue un patrón de arquitectura MVC (Model-View-Controller):
 
@@ -39,14 +60,23 @@ La aplicación sigue un patrón de arquitectura MVC (Model-View-Controller):
 - **View**: Interfaz de usuario con XIB personalizado
 - **Controller**: Manejo de eventos y actualización de la vista
 
-##  Instalación
+<br>
+<p align="left">
+  <img src="https://capsule-render.vercel.app/api?type=soft&height=35&text=Instalación&color=007AFF&fontColor=ffffff&fontSize=20&padding=10" />
+</p>
+<br>
 
 1. Clona este repositorio
 2. Abre `Calculadora.xcodeproj` en Xcode
 3. Selecciona un simulador o dispositivo iOS
 4. Ejecuta la aplicación (⌘+R)
 
-##  Uso
+   
+<br>
+<p align="left">
+  <img src="https://capsule-render.vercel.app/api?type=soft&height=35&text=Uso&color=007AFF&fontColor=ffffff&fontSize=20&padding=10" />
+</p>
+<br>
 
 - Toca los números para introducirlos
 - Usa los operadores (+, -, ×, ÷) para realizar operaciones
@@ -56,20 +86,27 @@ La aplicación sigue un patrón de arquitectura MVC (Model-View-Controller):
 - "%" convierte el número a porcentaje
 - "×2" multiplica por 2, "÷2" divide por 2
 
-##  Autor
+<br>
+<p align="left">
+  <img src="https://capsule-render.vercel.app/api?type=soft&height=35&text=Autor&color=007AFF&fontColor=ffffff&fontSize=20&padding=10" />
+</p>
+<br>
 
-Javier Cardenas Perdomo
+<h3>
+Javier Cárdenas Perdomo
+<a href="mailto:cardenas97vga@gmail.com">
+  <img src="https://readmecodegen.vercel.app/api/social-icon?name=gmail&size=20"
+       style="vertical-align: middle; margin-left: 6px;" />
+</a>
+<a href="https://www.linkedin.com/in/javiercardenasperdomo97/">
+  <img src="https://readmecodegen.vercel.app/api/social-icon?name=linkedin&size=20"
+       style="vertical-align: middle; margin-left: 4px;" />
+</a>
+</h3>
 
-Si tienes alguna pregunta o sugerencia, no dudes en contactarme:
-
-- **Email:** cardenas97vga@gmail.com
-- **GitHub:** [0re0re0](https://github.com/0re0re0)
-
-##  Licencia
-
-Este proyecto está bajo la Licencia MIT
+<img src="https://capsule-render.vercel.app/api?type=rect&height=3&color=007AFF" />
 
 
 ¡Gracias por visitar mi proyecto!
 
----
+
